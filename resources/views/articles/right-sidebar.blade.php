@@ -2,23 +2,23 @@
     <div class="post-sidebar-area">
 
         <!-- ##### Single Widget Area ##### -->
-{{--        <div class="single-widget-area mb-30">--}}
-{{--            <!-- Title -->--}}
-{{--            <div class="widget-title">--}}
-{{--                <h6>About Me</h6>--}}
-{{--            </div>--}}
-{{--            <!-- Thumbnail -->--}}
-{{--            <div class="about-thumbnail">--}}
-{{--                <img src="img/blog-img/about-me.jpg" alt="">--}}
-{{--            </div>--}}
-{{--            <!-- Content -->--}}
-{{--            <div class="widget-content text-center">--}}
-{{--                <img src="img/core-img/signature.png" alt="">--}}
-{{--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor--}}
-{{--                    incididunt ipsum adipisicing</p>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        @include('articles.catergories-widget')
+    {{--        <div class="single-widget-area mb-30">--}}
+    {{--            <!-- Title -->--}}
+    {{--            <div class="widget-title">--}}
+    {{--                <h6>About Me</h6>--}}
+    {{--            </div>--}}
+    {{--            <!-- Thumbnail -->--}}
+    {{--            <div class="about-thumbnail">--}}
+    {{--                <img src="img/blog-img/about-me.jpg" alt="">--}}
+    {{--            </div>--}}
+    {{--            <!-- Content -->--}}
+    {{--            <div class="widget-content text-center">--}}
+    {{--                <img src="img/core-img/signature.png" alt="">--}}
+    {{--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor--}}
+    {{--                    incididunt ipsum adipisicing</p>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    @include('articles.catergories-widget')
 
     @include('articles.latest-articles')
 
@@ -28,8 +28,8 @@
             <a href="#"><img src="img/blog-img/add.png" alt=""></a>
         </div>
 
-         {{--subcribe & follow--}}
-        <!-- ##### Single Widget Area ##### -->
+    {{--subcribe & follow--}}
+    <!-- ##### Single Widget Area ##### -->
         <div class="single-widget-area mb-30">
             <!-- Title -->
             <div class="widget-title">
@@ -39,9 +39,11 @@
             <div class="newsletter-content">
                 <p>Subscribe our newsletter for get notification about new updates, information
                     discount, etc.</p>
-                <form action="#" method="post">
+                <form action="{{route('web.send_email')}}" method="POST">
+                    @csrf
+                    @method('POST')
                     <input type="email" name="email" class="form-control" placeholder="Your email">
-                    <button><i class="fa fa-send"></i></button>
+                    <button type="submit"><i class="fa fa-send"></i></button>
                 </form>
             </div>
         </div>
@@ -63,7 +65,6 @@
                 <a href="#"><i class="fa fa-rss"></i></a>
             </div>
         </div>
-
 
 
     </div>

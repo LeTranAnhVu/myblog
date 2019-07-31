@@ -12,15 +12,17 @@ class NewsLetterNotification extends Mailable
     use Queueable, SerializesModels;
 
     public $email;
+    public $subject;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email, $subject)
     {
         $this->email = $email;
+        $this->subject = $subject;
     }
 
     /**
@@ -30,6 +32,6 @@ class NewsLetterNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.newsletter-notification');
+        return $this->subject($this->subject)->view('emails.newsletter-notification');
     }
 }

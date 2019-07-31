@@ -20,7 +20,8 @@ class EmailController extends Controller
             return back();
         }
         $email = $validator->validate()['email'];
-        Mail::to($email)->send(new NewsLetterNotification($email));
+        $subject = 'Welcome to myblog';
+        Mail::to($email)->send(new NewsLetterNotification($email, $subject));
         return back();
     }
 }

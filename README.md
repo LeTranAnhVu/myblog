@@ -18,11 +18,11 @@
   
    ```
     DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
+    DB_HOST=c-mysql
     DB_PORT=3306
     DB_DATABASE=laravel
-    DB_USERNAME=root
-    DB_PASSWORD=
+    DB_USERNAME=admin
+    DB_PASSWORD=password
     ```
 - setup jwt-auth
     - generate secret key:

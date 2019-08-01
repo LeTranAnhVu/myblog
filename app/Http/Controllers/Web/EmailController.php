@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Jobs\SendEmailJob;
 use App\Mail\NewsLetterNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,7 @@ class EmailController extends Controller
         }
         $email = $validator->validate()['email'];
         $subject = 'Welcome to myblog';
-        Mail::to($email)->send(new NewsLetterNotification($email, $subject));
+        SendEmailJob::dispatch($email, new NewsLetterNotification($email, $subject));
         return back();
     }
 }

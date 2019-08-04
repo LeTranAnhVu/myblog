@@ -16,7 +16,14 @@ services:
     restart: always
     volumes:
       - .:/home/www/mysite
+      - ./docker/php/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /home/www/mysite
+    # RUN WORKER IN LARAVEL
+    environment:
+      #for debug
+      PHP_EXTENSION_XDEBUG: 1
+      PHP_IDE_CONFIG: "serverName=docker_local_dev_myblog"
+      XDEBUG_CONFIG: "remote_host=192.168.1.40"
 
   # web-server
   my-httpd:

@@ -13,6 +13,7 @@ services:
       context: ./docker/php
       dockerfile: Dockerfile
     container_name: c-php
+    restart: always
     volumes:
       - .:/home/www/mysite
     working_dir: /home/www/mysite
@@ -21,6 +22,7 @@ services:
   my-httpd:
     image: httpd:latest
     container_name: c-httpd
+    restart: always
     volumes:
       - .:/home/www/mysite
       - ./docker/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf

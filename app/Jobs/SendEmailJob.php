@@ -15,7 +15,7 @@ class SendEmailJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $email;
     public $mailable;
-    
+
     /**
      * Delete the job if its models no longer exist.
      *

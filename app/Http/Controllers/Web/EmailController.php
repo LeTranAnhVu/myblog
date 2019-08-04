@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class EmailController extends Controller
 {
-    public function send(Request $request)
+    public function sendNewsLetter(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email'

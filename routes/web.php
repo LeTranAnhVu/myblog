@@ -23,6 +23,6 @@ Route::namespace('Web')->name('web.')->group(function () {
         return redirect('/home');
     });
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::post('/send-email', 'EmailController@send')->name('send_email');
+    Route::post('/send-email', 'EmailController@sendNewsLetter')->name('send_email');
     Route::get('/articles/{slug}', 'ArticleController@index')->name('article');
 });

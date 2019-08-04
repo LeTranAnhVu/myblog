@@ -17,6 +17,8 @@ services:
     volumes:
       - .:/home/www/mysite
     working_dir: /home/www/mysite
+    environment:
+      PHP_EXTENSION_XDEBUG: 1
 
   # web-server
   my-httpd:

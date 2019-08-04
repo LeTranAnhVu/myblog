@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\IMyService;
 use App\Models\Api\Article;
 use App\Models\Api\Category;
+use App\Services\MyService;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(IMyService $myService)
     {
+        $myService->broken();
         $articles = Article::getByCategory(Input::get('category'))
             ->getByArticleState('published')
             ->getOrderBy(['updated_at', 'desc'])

@@ -23,7 +23,7 @@ services:
       #for debug
       PHP_EXTENSION_XDEBUG: 1
       PHP_IDE_CONFIG: "serverName=docker_local_dev_myblog"
-      XDEBUG_CONFIG: "remote_host=192.168.1.40"
+      XDEBUG_CONFIG: "remote_host=192.168.1.112"
 
   # web-server
   my-httpd:

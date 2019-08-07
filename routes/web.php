@@ -25,4 +25,8 @@ Route::namespace('Web')->name('web.')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/send-email', 'EmailController@sendNewsLetter')->name('send_email');
     Route::get('/articles/{slug}', 'ArticleController@index')->name('article');
+
+    Route::prefix('shop')->group(function () {
+        Route::get('/', 'ShopController@index')->name('shop');
+    });
 });

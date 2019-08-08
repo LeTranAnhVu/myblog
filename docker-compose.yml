@@ -4,8 +4,15 @@
 # start: docker-compose start
 # work with php artisan : docker exec -it c-php bash
 version: '3'
-#network
 
+
+#NETWORK
+networks:
+  myblog-network:
+    driver: bridge
+
+
+#SERVICES
 services:
   # php fpm
   my-php:
@@ -13,7 +20,8 @@ services:
       context: ./docker/php
       dockerfile: Dockerfile
     container_name: c-php
-    restart: always
+    networks:
+      - myblog-network
     volumes:
       - .:/home/www/mysite
       - ./docker/php/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -29,7 +37,8 @@ services:
   my-httpd:
     image: httpd:latest
     container_name: c-httpd
-    restart: always
+    networks:
+      - myblog-network
     volumes:
       - .:/home/www/mysite
       - ./docker/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
@@ -43,7 +52,8 @@ services:
   my-sql:
     image: mysql:5.7
     container_name: c-mysql
-    restart: always
+    networks:
+      - myblog-network
     command: --disable-partition-engine-check
     environment:
       MYSQL_ROOT_PASSWORD: password

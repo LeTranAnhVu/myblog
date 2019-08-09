@@ -16,8 +16,6 @@
 
 //Auth::routes();
 
-
-
 Route::namespace('Web')->name('web.')->group(function () {
     Route::get('/', function () {
         return redirect('/home');
@@ -25,4 +23,10 @@ Route::namespace('Web')->name('web.')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('/send-email', 'EmailController@sendNewsLetter')->name('send_email');
     Route::get('/articles/{slug}', 'ArticleController@index')->name('article');
+
+    Route::prefix('shop')->group(function () {
+        Route::get('/', 'ShopController@index')->name('shop');
+        Route::get('/products', 'ProductController@list')->name('product_list');
+        Route::get('/products/detail', 'ProductController@detail')->name('product_detail');
+    });
 });

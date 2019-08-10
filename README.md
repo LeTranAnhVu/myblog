@@ -63,3 +63,10 @@
     
   ###Web:
   - Template blog is located at `/resources/template.*.zip`
+  
+  ### Packages:
+  
+  #### laravel-widgets:
+  - Install : `composer require arrilot/laravel-widgets`
+  - Docs: https://github.com/arrilot/laravel-widgets
+  

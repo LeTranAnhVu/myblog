@@ -22,7 +22,8 @@
 </head>
 <body>
 {{--header--}}
-@include('layouts.header')
+{{--@include('layouts.header')--}}
+{{ Widget::run('Article\Header') }}
 
 <main>
     @yield('content')

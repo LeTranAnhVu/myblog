@@ -17,10 +17,8 @@ class ArticleController extends Controller
     public function index($slug)
     {
         $article = Article::where('slug', $slug)->with('author')->first();
-        $categories = Category::all();
         return view('article', [
             'article' => $article,
-            'categories' => $categories
         ]);
     }
 

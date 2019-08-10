@@ -10,17 +10,13 @@ class ProductController extends Controller
 {
     public function list()
     {
-        $categories = Category::all();
         return view('shop.products', [
-            'categories' =>  $categories
         ]);
     }
 
     public function detail()
     {
-        $categories = Category::all();
         return view('shop.product-detail', [
-            'categories' =>  $categories
         ]);
     }
 

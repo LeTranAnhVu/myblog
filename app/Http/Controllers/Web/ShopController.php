@@ -15,9 +15,7 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
         return view('shop.shop', [
-            'categories' =>  $categories
         ]);
     }
 }

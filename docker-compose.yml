@@ -31,7 +31,7 @@ services:
       #for debug
       PHP_EXTENSION_XDEBUG: 1
       PHP_IDE_CONFIG: "serverName=docker_local_dev_myblog"
-      XDEBUG_CONFIG: "remote_host=192.168.1.112"
+      XDEBUG_CONFIG: remote_host=${HOST_IP}
 
   # web-server
   my-httpd:
@@ -44,7 +44,7 @@ services:
       - ./docker/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
       - ./docker/httpd/hosts:/etc/hosts
     ports:
-      - "8080:80"
+      - "80:80"
       - "443:443"
     working_dir: /home/www/mysite
 

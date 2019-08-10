@@ -41,6 +41,16 @@
 ###Start:
  - Start project
  >php artisan serve
+### Dev:
+#####Create migrations in nested folder:
+- for example: create `products` table in the `database/migrations/shop` directory
+
+`php artisan make:migration create_products_table --path=database/migrations/shop`
+
+#####Run migrate in nested folder:
+- for example: create tables in the `database/migrations/shop` directory
+
+`php artisan migrate --path=database/migrations/shop`
 
 ###References:
 - PHP version: 7.2.17
@@ -69,4 +79,5 @@
   #### laravel-widgets:
   - Install : `composer require arrilot/laravel-widgets`
   - Docs: https://github.com/arrilot/laravel-widgets
+  
   

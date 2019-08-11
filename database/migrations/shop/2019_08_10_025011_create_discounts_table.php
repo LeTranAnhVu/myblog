@@ -15,7 +15,7 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 30);
+            $table->string('name', 30)->unique();
             $table->decimal('discount_percent', 5, 3)->default(0);
             $table->boolean('is_available')->default(false);
             $table->timestampTz('started_at')->nullable();

@@ -15,12 +15,12 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 30);
-            $table->text('image_url');
-            $table->unsignedInteger('quatity_sold')->default(0);
-            $table->unsignedInteger('quatity_in_stock')->unsigned();
+            $table->string('name', 30)->unique();
+            $table->text('image_urls');
+            $table->unsignedInteger('quantity_sold')->default(0);
+            $table->unsignedInteger('quantity_in_stock')->unsigned();
             $table->text('description');
-            $table->string('sku', 10);
+            $table->string('sku', 10)->unique();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->enum('state', ['deleted' , 'out_of_stock', 'unavailable', 'available'])->default('unavailable');
@@ -30,6 +30,7 @@ class CreateProductsTable extends Migration
 
             // relationships
             $table->foreign('brand_id')->references('id')->on('brands');
+            $table->foreign('discount_id')->references('id')->on('discounts');
         });
     }
 

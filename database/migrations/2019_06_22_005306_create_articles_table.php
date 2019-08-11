@@ -26,7 +26,7 @@ class CreateArticlesTable extends Migration
             $table->dateTime('published_at')->nullable();
             //ref
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
+            $table->timestamps('');
         });
     }
 

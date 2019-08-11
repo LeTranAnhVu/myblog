@@ -41,6 +41,16 @@
 ###Start:
  - Start project
  >php artisan serve
+### Dev:
+#####Create migrations in nested folder:
+- for example: create `products` table in the `database/migrations/shop` directory
+
+`php artisan make:migration create_products_table --path=database/migrations/shop`
+
+#####Run migrate in nested folder:
+- for example: create tables in the `database/migrations/shop` directory
+
+`php artisan migrate --path=database/migrations/shop`
 
 ###References:
 - PHP version: 7.2.17
@@ -62,7 +72,7 @@
     - https://github.com/tymondesigns/jwt-auth/issues/1795
     
   ###Web:
-  - Template blog is located at `/resources/template.*.zip`
+  - Template is located at `/resources/template.*.zip`
   
   ### Packages:
   
@@ -70,3 +80,5 @@
   - Install : `composer require arrilot/laravel-widgets`
   - Docs: https://github.com/arrilot/laravel-widgets
   
+  ### Notice:
+  - when in `docker container`, if you want to run `composer something` you should turn off `debug` in your `ide` 

@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name', 30)->unique();
             $table->text('image_urls');
             $table->unsignedInteger('quantity_sold')->default(0);
-            $table->unsignedInteger('quantity_in_stock')->unsigned();
+            $table->unsignedInteger('quantity_in_stock')->default(0);
             $table->text('description');
-            $table->string('sku', 10)->unique();
+            $table->string('sku', 10)->unique()->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('discount_id')->nullable();
             $table->enum('state', ['deleted' , 'out_of_stock', 'unavailable', 'available'])->default('unavailable');

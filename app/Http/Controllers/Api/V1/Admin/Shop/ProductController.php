@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api\V1\Admin\Shop;
 
 use App\Models\Api\Shop\Product;
+use App\Traits\UploadTrait;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
+    use UploadTrait;
     /**
      * Display a listing of the resource.
      *
@@ -15,20 +18,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('brand')->with('discount')->get();
+        $products = Product::with('brand')->with('discount')->with('categories')->latest()->get();
         return response([
             'products' => $products
         ], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -39,7 +32,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->except('images'),[
+            'name' => 'required|unique:products|min:3|max:30',
+            'quantity_sold' => 'nullable|integer|gte:0',
+            'quantity_in_stock' => 'nullable|integer|gte:0',
+            'description' => 'required|string',
+            'sku' => 'nullable|string|min:3|max:10',
+            'brand_id' => 'nullable|integer|gte:1',
+            'discount_id' => 'nullable|integer|gte:1',
+            'state' => 'nullable|string',
+            'price' => 'required|numeric',
+            'availabled_at' => 'nullable|date'
+        ]);
+        if($validator->fails()){
+            return response(['message' => $validator->errors()], 400);
+        }
+
+        //check images
+        if(!$request->has('images')) {
+            return response(['message' => 'images field is empty'], 400);
+        }
+        //save images
+        $image_urls = $this->uploadMultiple($request->file('images'), 'images');
+
+        // create model
+        $product = new Product($validator->valid());
+        $product->image_urls = $image_urls;
+        $product->save();
+        //update pivot
+
+
+        return response(['message' => "create success"], 200);
     }
 
     /**

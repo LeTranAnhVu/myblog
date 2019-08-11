@@ -72,7 +72,7 @@
     - https://github.com/tymondesigns/jwt-auth/issues/1795
     
   ###Web:
-  - Template blog is located at `/resources/template.*.zip`
+  - Template is located at `/resources/template.*.zip`
   
   ### Packages:
   
@@ -80,4 +80,5 @@
   - Install : `composer require arrilot/laravel-widgets`
   - Docs: https://github.com/arrilot/laravel-widgets
   
-  
+  ### Notice:
+  - when in `docker container`, if you want to run `composer something` you should turn off `debug` in your `ide` 

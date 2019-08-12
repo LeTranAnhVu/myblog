@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
     use UploadTrait;
+
     /**
      * Display a listing of the resource.
      *
@@ -27,29 +28,30 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->except('images'),[
+        $validator = Validator::make($request->except('images'), [
             'name' => 'required|unique:products|min:3|max:30',
             'quantity_sold' => 'nullable|integer|gte:0',
             'quantity_in_stock' => 'nullable|integer|gte:0',
             'description' => 'required|string',
-            'sku' => 'nullable|string|min:3|max:10',
+            'sku' => 'nullable|string|min:3|max:10|unique:products',
             'brand_id' => 'nullable|integer|gte:1',
             'discount_id' => 'nullable|integer|gte:1',
             'state' => 'nullable|string',
             'price' => 'required|numeric',
-            'availabled_at' => 'nullable|date'
+            'availabled_at' => 'nullable|date',
+            'categories' => 'nullable|string'
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response(['message' => $validator->errors()], 400);
         }
 
         //check images
-        if(!$request->has('images')) {
+        if (!$request->has('images')) {
             return response(['message' => 'images field is empty'], 400);
         }
         //save images
@@ -58,9 +60,14 @@ class ProductController extends Controller
         // create model
         $product = new Product($validator->valid());
         $product->image_urls = $image_urls;
-        $product->save();
-        //update pivot
 
+        //update pivot
+        try {
+            $product->save();
+            $product->categories()->attach(explode(',', $validator->valid()['categories']));
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 500);
+        }
 
         return response(['message' => "create success"], 200);
     }
@@ -68,18 +75,23 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        try {
+            $product = Product::where('id', $id)->with('categories')->with('discount')->with('brand')->get()[0];
+            return response(['product' => $product], 200);
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -90,8 +102,8 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -102,11 +114,16 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        try {
+            $product = Product::where('id', $id)->with('categories')->with('discount')->with('brand')->get()[0];
+            return response(['product' => $product], 200);
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 404);
+        }
     }
 }

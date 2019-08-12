@@ -2,10 +2,15 @@
 
 namespace App\Models\Api\Shop;
 
+use App\Traits\UploadTrait;
 use Illuminate\Database\Eloquent\Model;
 
+/*
+ * @note :  state = [0 =>'deleted' , 'out_of_stock', 'unavailable', 'available']
+ * */
 class Product extends Model
 {
+    use UploadTrait;
     protected $fillable = [
         'name',
         'image_urls',
@@ -28,6 +33,12 @@ class Product extends Model
     }
     public function discount() {
         return $this->belongsTo('App\Models\Api\Shop\Discount', 'discount_id', 'id');
+    }
+
+    public function getImageUrlsAttribute($value)
+    {
+        if (!$value) return null;
+        return $this->getUrl($value);
     }
 
 

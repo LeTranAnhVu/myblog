@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
     {
         $limit = 50;
         $faker = Faker::create();
-        $state = [ 'deleted', 'out_of_stock', 'available' ,'unavailable'];
+        $state = [ '0', '1', '2' ,'3'];
         for ($i = 0; $i < $limit; $i++) {
             $image_urls = [];
             for ($j = 0; $j < 5; $j++) {

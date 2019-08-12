@@ -8,7 +8,7 @@ class CreateProductsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * @note :  state = [0 =>'deleted' , 'out_of_stock', 'unavailable', 'available']
      * @return void
      */
     public function up()
@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('sku', 10)->unique()->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('discount_id')->nullable();
-            $table->enum('state', ['deleted' , 'out_of_stock', 'unavailable', 'available'])->default('unavailable');
+            $table->enum('state', [0, 1, 2, 3])->default(2);
             $table->decimal('price', 10,2)->default(0);
             $table->timestampTz('availabled_at')->nullable();
             $table->timestamps();

@@ -4,6 +4,7 @@ namespace App\Models\Api\Shop;
 
 use App\Traits\UploadTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /*
  * @note :  state = [0 =>'deleted' , 'out_of_stock', 'unavailable', 'available']
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use UploadTrait;
+    use SoftDeletes;
     protected $fillable = [
         'name',
         'image_urls',

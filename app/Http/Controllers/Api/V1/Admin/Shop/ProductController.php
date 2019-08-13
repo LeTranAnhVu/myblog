@@ -81,22 +81,11 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::where('id', $id)->with('categories')->with('discount')->with('brand')->get()[0];
+            $product = Product::with('categories')->with('discount')->with('brand')->find($id);
             return response(['product' => $product], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -120,8 +109,8 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $product = Product::where('id', $id)->with('categories')->with('discount')->with('brand')->get()[0];
-            return response(['product' => $product], 200);
+            $result = Product::find($id)->delete();
+            return response(['message' => $result], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
         }

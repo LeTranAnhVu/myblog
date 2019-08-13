@@ -97,7 +97,42 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+
+            $validator = Validator::make($request->except('images'), [
+                'name' => 'nullable|unique:products|min:3|max:30',
+                'quantity_sold' => 'nullable|integer|gte:0',
+                'quantity_in_stock' => 'nullable|integer|gte:0',
+                'description' => 'nullable|string',
+                'sku' => 'nullable|string|min:3|max:10|unique:products',
+                'brand_id' => 'nullable|integer|gte:1',
+                'discount_id' => 'nullable|integer|gte:1',
+                'state' => 'nullable|string',
+                'price' => 'nullable|numeric',
+                'availabled_at' => 'nullable|date',
+                'categories' => 'nullable|string'
+            ]);
+
+            if ($validator->fails()) {
+                return response(['message' => $validator->errors()], 400);
+            }
+
+            //check images
+            if ($request->has('images')) {
+                $image_urls = $this->uploadMultiple($request->file('images'), 'images');
+                $product->$image_urls = $image_urls;
+            }
+
+            //save images
+            if (count($validator->valid()) !== 0) {
+                $product->update($validator->valid());
+                return response(['message' => 'update successfully'], 200);
+            }
+            return response(['message' => 'Unprocessable Entity'], 422);
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 404);
+        }
     }
 
     /**

@@ -52,6 +52,7 @@ Route::prefix('v1')->namespace('Api\V1')->name('api.v1.')->group(function () {
             //base route : api/v1/admin/shop
             //controller at : App\Http\Controllers\Api\V1\Admin\Shop
             Route::resource('products', 'ProductController');
+            Route::resource('brands', 'BrandController');
         });
     });
 });

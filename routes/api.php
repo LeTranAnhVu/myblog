@@ -17,10 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//base route : api/v1/
-//controller at : App\Http\Controllers\Api\V1
-//route name: api.v1.*
+
 Route::prefix('v1')->namespace('Api\V1')->name('api.v1.')->group(function () {
+    //base route : api/v1/
+    //controller at : App\Http\Controllers\Api\V1
+    //route name: api.v1.*
+
     // auth
     Route::prefix('auth')->name('auth.')->group(function () {
         Route::post('login', 'AuthController@login');
@@ -28,6 +30,11 @@ Route::prefix('v1')->namespace('Api\V1')->name('api.v1.')->group(function () {
     });
     //admin
     Route::prefix('admin')->namespace('Admin')->name('admin.')->middleware(['jwt.auth','role:admin|mod'])->group(function () {
+        //base route : api/v1/admin
+        //controller at : App\Http\Controllers\Api\V1\Admin
+        //route name: api.v1.admin*
+
+        // article
         Route::get('articles', 'ArticleController@index');
         Route::post('articles', 'ArticleController@store');
         Route::get('articles/{id}', 'ArticleController@show');
@@ -40,5 +47,11 @@ Route::prefix('v1')->namespace('Api\V1')->name('api.v1.')->group(function () {
         Route::get('categories/{id}', 'CategoryController@show');
         Route::put('categories/{id}', 'CategoryController@update');
         Route::delete('categories/{id}', 'CategoryController@destroy');
+
+        Route::prefix('shop')->namespace('Shop')->group(function(){
+            //base route : api/v1/admin/shop
+            //controller at : App\Http\Controllers\Api\V1\Admin\Shop
+            Route::resource('products', 'ProductController');
+        });
     });
 });

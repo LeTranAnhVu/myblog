@@ -16,10 +16,12 @@ class DatabaseSeeder extends Seeder
 //         $this->call(CategoriesTableSeeder::class);
 //         $this->call(ArticleCategoryTableSeeder::class);
 
-//        $this->call(PCategoriesTableSeeder::class);
-//        $this->call(BrandsTableSeeder::class);
-//        $this->call(DiscountsTableSeeder::class);
+        // shop
+        $this->call(PCategoriesTableSeeder::class);
+        $this->call(BrandsTableSeeder::class);
+        $this->call(DiscountsTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
+        $this->call(PCategoryProductTableSeeder::class);
     }
 
 //    custom helper function

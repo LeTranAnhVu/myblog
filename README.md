@@ -52,6 +52,16 @@
 
 `php artisan migrate --path=database/migrations/shop`
 
+###Public
+- public `images` or `files`:
+    - Access to the `docker container` (`c-php`), and type :
+    ```console
+    php artisan storage:link
+    ```
+    - **Note:** if there is any problem : 
+      - `rm public/storage`
+      - then type again : `php artisan storage:link`
+
 ###References:
 - PHP version: 7.2.17
 - Laravel version: 5.8.23

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Admin\Shop;
 
 use App\Models\Api\Shop\Product;
 use App\Traits\UploadTrait;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,9 +20,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('brand')->with('discount')->with('categories')->latest()->get();
+        $products = Product::with('brand')
+            ->with('discount')
+            ->with('categories')
+            ->getOrderBy(Input::get('order_by'))
+            ->searchKeyword(Input::get('keyword'))
+            ->latest()
+            ->paginate(5);
+
         return response([
-            'products' => $products
+            'data' => $products
         ], 200);
     }
 
@@ -82,7 +90,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::with('categories')->with('discount')->with('brand')->find($id);
-            return response(['product' => $product], 200);
+            return response(['data' => $product], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
         }
@@ -121,7 +129,7 @@ class ProductController extends Controller
             //check images
             if ($request->has('images')) {
                 $image_urls = $this->uploadMultiple($request->file('images'), 'images');
-                $product->$image_urls = $image_urls;
+                $product->image_urls = $image_urls;
             }
 
             //save images
@@ -129,7 +137,8 @@ class ProductController extends Controller
                 $product->update($validator->valid());
                 return response(['message' => 'update successfully'], 200);
             }
-            return response(['message' => 'Unprocessable Entity'], 422);
+
+            return response(['message' => 'up to date'], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
         }

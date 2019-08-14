@@ -46,4 +46,12 @@ trait UploadTrait
         }
         return env("APP_URL") . "/storage/" . $path;
     }
+
+    public function getUrls($paths){
+        $results = [];
+        foreach ($paths as $path) {
+            array_push( $results, $this->getUrl($path));
+        }
+        return implode(',', $results);
+    }
 }

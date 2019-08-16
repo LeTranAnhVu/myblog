@@ -20,6 +20,7 @@ class CreateDiscountsTable extends Migration
             $table->boolean('is_available')->default(false);
             $table->timestampTz('started_at')->nullable();
             $table->timestampTz('ended_at')->nullable();
+            $table->softDeletes();
 
             $table->timestamps();
         });

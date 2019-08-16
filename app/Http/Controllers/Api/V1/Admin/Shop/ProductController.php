@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\In;
 
 class ProductController extends Controller
 {
@@ -16,21 +17,28 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @Input data+type: 0 => only non deleted items, 1 => only deleted items, 2 => all
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $products = Product::with('brand')
-            ->with('discount')
-            ->with('categories')
-            ->getOrderBy(Input::get('order_by'))
-            ->searchKeyword(Input::get('keyword'))
-            ->latest()
-            ->paginate(5);
+        try {
+            $products = Product::getDataByState(Input::get('data_state'))
+                ->with('brand')
+                ->with('discount')
+                ->with('categories')
+                ->getOrderBy(Input::get('order_by'))
+                ->getDataByKeyword(Input::get('keyword'))
+                ->latest()
+                ->paginate(5);
 
-        return response([
-            'data' => $products
-        ], 200);
+            return response([
+                'data' => $products
+            ], 200);
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 400);
+        }
+
     }
 
     /**
@@ -153,10 +161,29 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $result = Product::find($id)->delete();
+            $result = Product::findOrFail($id)->delete();
             return response(['message' => $result], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
         }
+    }
+
+
+    /**
+     * Restore the specified resource from storage - remove the delete state.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function restore($id)
+    {
+        try {
+            $result = Product::onlyTrashed()->findOrFail($id)->restore();
+            return response(['message' => $result], 200);
+        } catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 400);
+        }
+
     }
 }

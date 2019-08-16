@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->enum('state', [0, 1, 2, 3])->default(2);
             $table->decimal('price', 10,2)->default(0);
             $table->timestampTz('availabled_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             // relationships

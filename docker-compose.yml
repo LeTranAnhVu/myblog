@@ -45,7 +45,7 @@ services:
       - ./docker/httpd/hosts:/etc/hosts
     ports:
       - "80:80"
-      - "443:443"
+#      - "443:443"
     working_dir: /home/www/mysite
 
   # database
@@ -63,4 +63,4 @@ services:
     volumes:
       - ./docker_db_storage:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3309:3306"

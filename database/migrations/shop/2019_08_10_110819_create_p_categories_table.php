@@ -17,6 +17,7 @@ class CreatePCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name', 30)->unique();
             $table->string('display_name', 30);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

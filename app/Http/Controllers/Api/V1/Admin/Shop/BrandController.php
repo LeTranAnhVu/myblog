@@ -17,15 +17,18 @@ class BrandController extends Controller
     public function index()
     {
         try {
-            $brands = Brand::withgetOrderBy(Input::get('order_by'))
-                ->searchKeyword(Input::get('keyword'))
+            $brands = Brand::getDataByState(Input::get('data_state'))
+                ->getOrderBy(Input::get('order_by'))
+                ->getDataByKeyword(Input::get('keyword'))
                 ->paginate(5);
+
+            return response([
+                'data' => $brands
+            ], 200);
         } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 400);
         }
-        return response([
-            'data' => $brands
-        ], 200);
+
     }
 
     /**
@@ -77,16 +80,19 @@ class BrandController extends Controller
     public function destroy($id)
     {
         try {
-            $brand = Brand::find($id);
-            $products = $brand->products();
-            foreach ($products as $product) {
-                $product->brand_id = null;
-                $product->save();
-            }
-            $brand->delete();
+            Brand::findOrFail($id)->delete();
             return response(['message' => 'delete successfully'], 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response(['message' => $e->getMessage()], 404);
+        }
+    }
+
+    public function restore($id) {
+        try{
+            $result = Brand::onlyTrashed()->findOrFail($id)->restore();
+            return response(['message' => $result], 200);
+        }catch (\Exception $e) {
+            return response(['message' => $e->getMessage()], 400);
         }
     }
 }

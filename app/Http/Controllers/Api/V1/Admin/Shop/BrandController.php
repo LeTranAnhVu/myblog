@@ -18,6 +18,7 @@ class BrandController extends Controller
     {
         try {
             $brands = Brand::getDataByState(Input::get('data_state'))
+                ->getRelationship(Input::get('include'))
                 ->getOrderBy(Input::get('order_by'))
                 ->getDataByKeyword(Input::get('keyword'))
                 ->paginate(5);

@@ -37,16 +37,17 @@ trait ScopeCommonTrait
     }
 
 
-    public function scopeGetDataByKeyword(Builder $query, $keyword) {
+    public function scopeGetDataByKeyword(Builder $query, $keyword)
+    {
         $fields = $this->searchedField;
 
         if (!$keyword) return $query;
 
         $pattern = '%' . $keyword . '%';
         $firstField = array_shift($fields);
-        $query = $query->where($firstField, 'LIKE' , $pattern);
+        $query = $query->where($firstField, 'LIKE', $pattern);
         foreach ($fields as $f) {
-            $query = $query->orWhere($f, 'LIKE' , $pattern);
+            $query = $query->orWhere($f, 'LIKE', $pattern);
         }
         return $query;
     }
@@ -56,7 +57,8 @@ trait ScopeCommonTrait
      * @return : $query
      */
 
-    public function scopeGetDataByState(Builder $query, $input){
+    public function scopeGetDataByState(Builder $query, $input)
+    {
         if (!$input || $input == 0) {
             return $query->withoutTrashed();
         } else if ($input == 1) {
@@ -66,5 +68,21 @@ trait ScopeCommonTrait
         } else {
             return $query;
         }
+    }
+
+    public function scopeGetRelationship(Builder $query, $tableNames)
+    {
+        if (!$tableNames || !is_string($tableNames)) return $query;
+
+        foreach (explode(',', $tableNames) as $name) {
+            $name = trim($name);
+            try {
+                $query = $query->with($name);
+            } catch (\Exception $e) {
+                throw $e;
+            }
+        }
+
+        return $query;
     }
 }

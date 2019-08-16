@@ -24,9 +24,7 @@ class ProductController extends Controller
     {
         try {
             $products = Product::getDataByState(Input::get('data_state'))
-                ->with('brand')
-                ->with('discount')
-                ->with('categories')
+                ->getRelationship(Input::get('include'))
                 ->getOrderBy(Input::get('order_by'))
                 ->getDataByKeyword(Input::get('keyword'))
                 ->latest()

@@ -53,8 +53,12 @@ Route::prefix('v1')->namespace('Api\V1')->name('api.v1.')->group(function () {
             //controller at : App\Http\Controllers\Api\V1\Admin\Shop
             Route::resource('products', 'ProductController');
             Route::patch('products/{id}/restore', 'ProductController@restore');
+
             Route::resource('brands', 'BrandController');
             Route::patch('brands/{id}/restore', 'BrandController@restore');
+
+            Route::resource('discounts', 'DiscountController');
+            Route::patch('discounts/{id}/restore', 'DiscountController@restore');
         });
     });
 });
